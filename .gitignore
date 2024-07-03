@@ -1,0 +1,56 @@
+poc/.ipynb_checkpoints/*
+poc/database_llama_index_1000_200/*
+poc/database_llama_index_1000_200_v1/*
+poc/.ipynb_checkpoints/*
+poc/notebook/llama_1000_200/*
+poc/venv_poc/*
+data/*
+poc/.DS_Store
+poc/.env
+src/llm/notebooks/*
+src/llm/.ipynb_checkpoints/*
+.env
+src/llm/vector_store/.ipynb_checkpoints/
+database/*
+code/genesis/genesis_venv/*
+code/genesis/database/*
+code/genesis/genesis_venv/*
+code/genesis/data/*
+genesis_venv/*
+*.pyc
+**/node_modules/
+# macOS specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear on external disks
+.Spotlight-V100
+.Trashes
+
+# macOS files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear on external disks
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+.next/

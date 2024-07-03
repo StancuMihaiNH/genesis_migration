@@ -1,0 +1,233 @@
+fragment UserFragment on User {
+    id
+    name
+    email
+    phone
+    role
+    avatar
+    avatarUrl
+    createdAt
+    updatedAt
+}
+fragment CategoryFragment on Category {
+    id
+    title
+    description
+    createdAt
+    userId
+    user {
+        ...UserFragment
+    }
+}
+fragment FileFragment on File {
+    id
+    filename
+    content
+    contentType
+    url
+}
+fragment TagFragment on Tag {
+    id
+    displayName
+    content
+    categoryId
+    category {
+        ...CategoryFragment
+    }
+    attachments {
+        ...FileFragment
+    }
+    userId
+    user {
+        ...UserFragment
+    }
+}
+fragment TopicFragment on Topic {
+    id
+    name
+    aiTitle
+    description
+    tags {
+        ...TagFragment
+    }
+    createdAt
+    updatedAt
+    lastMessageAt
+    pinned
+    pinnedAt
+}
+fragment MessageFragment on Message {
+    id
+    role
+    content
+    files {
+        ...FileFragment
+    }
+    model
+    sourceDocuments{
+        id
+        filename
+        content
+    }
+    localStatusError
+    createdAt
+    updatedAt
+}
+mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+        user {
+            ...UserFragment
+        }
+        token
+    }
+}
+query Viewer {
+    viewer {
+        user {
+            ...UserFragment
+        }
+        token
+    }
+}
+query Tags {
+    tags {
+        ...TagFragment
+    }
+}
+mutation CreateTag($input: TagInput!) {
+    createTag(input: $input) {
+        ...TagFragment
+    }
+}
+mutation DeleteTag($deleteTagId: ID!) {
+    deleteTag(id: $deleteTagId)
+}
+mutation PresignedUploadUrl($filename: String!, $contentType: String!, $prefix: String) {
+    presignedUploadUrl(filename: $filename, contentType: $contentType, prefix: $prefix) {
+        url
+        key
+    }
+}
+mutation CreateTopic($input: CreateTopicInput!) {
+    createTopic(input: $input) {
+        ...TopicFragment
+    }
+}
+query Topic($topicId: ID!) {
+    topic(id: $topicId) {
+        ...TopicFragment
+    }
+}
+mutation UpdateTopic($updateTopicId: ID!, $input: UpdateTopicInput!) {
+    updateTopic(id: $updateTopicId, input: $input) {
+        ...TopicFragment
+    }
+}
+query Messages($topicId: ID!, $nextToken: String) {
+    messages(topicId: $topicId, nextToken: $nextToken) {
+        items {
+            ...MessageFragment
+        }
+        nextToken
+    }
+}
+query Prompts {
+    prompts {
+        id
+        title
+        description
+    }
+}
+mutation CreateMessage($topicId: ID!, $input: CreateMessageInput!) {
+    createMessage(topicId: $topicId, input: $input) {
+        ...MessageFragment
+    }
+}
+mutation UpdateMessage($topicId: ID!, $messageId: ID!, $input: UpdateMessageInput!) {
+    updateMessage(topicId: $topicId, messageId: $messageId, input: $input) {
+        ...MessageFragment
+    }
+}
+query Topics($search: String, $pinned: Boolean, $asc: Boolean) {
+    topics(search: $search, pinned: $pinned, asc: $asc) {
+        ...TopicFragment
+    }
+}
+mutation CreatePrompt($title: String!, $description: String!) {
+    createPrompt(title: $title, description: $description) {
+        id
+        title
+        description
+    }
+}
+mutation DeletePrompt($deletePromptId: ID!) {
+    deletePrompt(id: $deletePromptId)
+}
+mutation DeleteTopic($deleteTopicId: ID!) {
+    deleteTopic(id: $deleteTopicId)
+}
+mutation PinTopic($pinTopicId: ID!) {
+    pinTopic(id: $pinTopicId) {
+        ...TopicFragment
+    }
+}
+mutation UnpinTopic($unpinTopicId: ID!) {
+    unpinTopic(id: $unpinTopicId) {
+        ...TopicFragment
+    }
+}
+query Users($nextToken: String) {
+    users(nextToken: $nextToken) {
+        items {
+            ...UserFragment
+        }
+        nextToken
+    }
+}
+query GetFileContent($key: String!) {
+    getFileContent(key: $key)
+}
+mutation CreateUser($name: String!, $email: String!, $password: String!) {
+    createUser(name: $name, email: $email, password: $password) {
+        ...UserFragment
+    }
+}
+mutation DeleteUser($deleteUserId: ID!) {
+    deleteUser(id: $deleteUserId)
+}
+mutation UpdateUser($updateUserId: ID!, $input: UpdateUserInput!) {
+    updateUser(id: $updateUserId, input: $input) {
+        ...UserFragment
+    }
+}
+query Categories {
+    categories {
+        ...CategoryFragment
+    }
+}
+mutation AddCategory($title: String!, $description: String) {
+    addCategory(title: $title, description: $description) {
+        ...CategoryFragment
+    }
+}
+mutation EditCategory($editCategoryId: ID!, $title: String!, $description: String, $userId: ID) {
+    editCategory(id: $editCategoryId, title: $title, description: $description, userId: $userId) {
+        ...CategoryFragment
+    }
+}
+mutation DeleteCategory($deleteCategoryId: ID!) {
+    deleteCategory(id: $deleteCategoryId)
+}
+query CategoriesAndTags {
+    categories {
+        ...CategoryFragment
+    }
+    tags {
+        ...TagFragment
+    }
+}
+mutation UpdateTag($input: TagInput!) {
+    updateTag(input: $input) {
+        ...TagFragment
+    }
+}

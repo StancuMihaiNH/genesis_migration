@@ -1,0 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+    --primary-rgb: 19, 46, 83;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
+}
+
+.message-card {
+    word-break: break-word;
+    line-height: 1.5em;
+}
+.message-card p {
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+.message-card p + p, .message-card ul + p, .message-card ol + p, .message-card blockquote + p, .message-card pre + p, .message-card table + p, .message-card dl + p, .message-card div + p {
+    margin-top: 1em;
+}
+.message-card hr {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 0;
+    border-top: 1px solid #dfe2e5;
+}
+.message-card pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+.message-card ul,
+.message-card ol {
+    padding-left: 1.5rem;
+}
+.message-card ol {
+    list-style-type: decimal;
+}
+.message-card ul {
+    list-style-type: disc;
+}
+.message-card ul > li,
+.message-card ol > li {
+    margin-top: 0.5rem;
+}
+.message-card h1 {
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+}
+
+.message-card h2 {
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+}
+
+.message-card h3 {
+    font-size: 1.17em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.message-card h4 {
+    font-size: 1em;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+}
+.message-card h5 {
+    font-size: 0.83em;
+    margin-top: 1.67em;
+    margin-bottom: 1.67em;
+}
+.message-card h6 {
+    font-size: 0.67em;
+    margin-top: 2.33em;
+    margin-bottom: 2.33em;
+}
+.message-card blockquote {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding: 0.5em 1em;
+    border-left: 0.25em solid #dfe2e5;
+    background-color: #f8f9fa;
+}
+
+.message-card blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+.message-card blockquote p:first-child {
+    margin-top: 0;
+}
+
+.message-card blockquote p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.message-card blockquote p + p {
+    margin-top: 1em;
+}
+
+.message-card blockquote p + ul,
+.message-card blockquote p + ol {
+    margin-top: 1em;
+}
+
+.message-card blockquote ul + p,
+.message-card blockquote ol + p {
+    margin-top: 1em;
+}
+
+.message-card blockquote ul + ul,
+.message-card blockquote ol + ol {
+    margin-top: 1em;
+}
+
+.message-card blockquote ul + ol,
+.message-card blockquote ol + ul {
+    margin-top: 1em;
+}
+
+.message-card blockquote ul {
+    list-style-type: disc;
+    padding-left: 1.5em;
+}
+
+.message-card blockquote ol {
+    list-style-type: decimal;
+    padding-left: 1.5em;
+}
+
+.message-card blockquote ul ul,
+.message-card blockquote ol ul {
+    list-style-type: circle;
+    padding-left: 1.5em;
+}
+
+.message-card a {
+    color: #039fb8;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.message-card table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+}
+
+.message-card table th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.message-card table td {
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.message-card table th, .message-card table td {
+    padding: 0.75rem;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #dee2e6;
+}
+
+.message-card table th {
+    text-align: inherit;
+}
+
+.message-card table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.message-card table tbody + tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+@layer utilities {
+    input,textarea {
+        @apply outline-primary;
+        @apply ring-primary;
+        @apply border-primary;
+    }
+}

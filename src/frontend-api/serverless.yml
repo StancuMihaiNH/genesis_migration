@@ -1,0 +1,95 @@
+service: nh-graphql
+frameworkVersion: '3'
+provider:
+  name: aws
+  runtime: nodejs18.x
+  httpApi:
+    cors:
+      allowedOrigins:
+        - http://localhost:3000
+        - http://localhost
+        - http://34.201.47.224
+        - http://3.239.170.107
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+functions:
+  graphql:
+    handler: src/server.graphqlHandler
+    environment:
+      TABLE_NAME: NHChat
+      BUCKET_NAME: nh-chat-bucket
+      JWT_SECRET: GXf9AmJkqBZP6DecTVUKEuYr48HtL5zhy3CS2QxsRvdWj7wFbn
+      #NODE_ENV: development
+    events:
+      - httpApi:
+          path: /
+          method: POST
+      - httpApi:
+          path: /
+          method: GET
+
+resources:
+  Resources:
+    Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: nh-chat-bucket
+    NHChatTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: NHChat
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+          - AttributeName: GSI1PK
+            AttributeType: S
+          - AttributeName: GSI1SK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: GSI1
+            KeySchema:
+              - AttributeName: GSI1PK
+                KeyType: HASH
+              - AttributeName: GSI1SK
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+        BillingMode: PAY_PER_REQUEST
+plugins:
+  - serverless-dynamodb
+  - serverless-offline
+package:
+  exclude:
+    - .git/**
+    - .env/**
+    - .vscode/**
+    - .serverless
+    - .dynamodb
+    - .idea/**
+custom:
+  serverless-offline:
+    httpPort: 4000
+    babelOptions:
+      presets: ["env"]
+  serverless-dynamodb:
+    stages:
+      - dev
+    start:
+      port: 8000
+      docker: false
+      migrate: true
+      inMemory: true
+      convertEmptyValues: true
+      heapInitial: '200m'
+      heapMax: '1g'
+      seed: true

@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./frontend-ui/.
+      dockerfile: Dockerfile
+    container_name: "nh-chat-app"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_ACCESS_TOKEN_KEY: accessToken
+      NEXT_PUBLIC_MESSAGE_API_URL: http://localhost:8001/chat_stream/
+      NEXT_PUBLIC_GRAPHQL_URL: https://d531fgj3c7.execute-api.us-east-1.amazonaws.com
+    expose:
+      - "3000"
+    depends_on:
+      - nhgenesisapi
+    networks:
+      - nh-chat
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend-ui/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+    networks:
+      - nh-chat
+  nhgenesisapi:
+    build: ./llm/fastapi/.
+    ports:
+      - "8001:8001"
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - OPENAI_API_KEY_LIST=${OPENAI_API_KEY_LIST}
+      - ANTHROPIC_API_KEY_LIST=${ANTHROPIC_API_KEY_LIST}
+    entrypoint: ["uvicorn", "stream:app", "--host", "0.0.0.0", "--port", "8001"]
+networks:
+  nh-chat:
+    driver: bridge
